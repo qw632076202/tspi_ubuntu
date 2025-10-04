@@ -4,8 +4,8 @@ FROM ubuntu:22.04
 #维护者
 MAINTAINER hejiawen
 
-RUN sed -i -r 's#http://(archive|security).ubuntu.com#http://mirrors.tuna.tsinghua.edu.cn#g' /etc/apt/sources.list \
-  && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+# RUN sed -i -r 's#http://(archive|security).ubuntu.com#http://mirrors.tuna.tsinghua.edu.cn#g' /etc/apt/sources.list \
+  RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo 'Asia/Shanghai' >/etc/timezone
 
 RUN apt update \

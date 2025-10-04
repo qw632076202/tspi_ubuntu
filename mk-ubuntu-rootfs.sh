@@ -184,6 +184,12 @@ elif [[ "$ARCH" == "arm64" && "$VERSION" == "debug" ]]; then
     sudo cp -f overlay-debug/usr/local/share/adb/adbd-64 $TARGET_ROOTFS_DIR/usr/bin/adbd
 fi
 
+# bt/wifi firmware
+sudo mkdir -p $TARGET_ROOTFS_DIR/system/lib/modules/
+sudo mkdir -p $TARGET_ROOTFS_DIR/vendor/etc
+sudo find ./*  -name "bcmdhd.ko" | \
+    xargs -n1 -i sudo cp {} $TARGET_ROOTFS_DIR/system/lib/modules/
+
 echo -e "\033[47;36m Change root.....................\033[0m"
 if [ "$ARCH" == "armhf" ]; then
     sudo cp /usr/bin/qemu-arm-static $TARGET_ROOTFS_DIR/usr/bin/
@@ -306,6 +312,11 @@ if [[ "$TARGET" == "gnome" ||  "$TARGET" == "xfce" || "$TARGET" == "gnome-full" 
         \${APT_INSTALL} glmark2-es2
     fi
 fi
+
+#------------------rkwifibt------------
+echo -e "\033[36m Install rkwifibt.................... \033[0m"
+\${APT_INSTALL} /packages/rkwifibt/*.deb
+ln -sf /system/etc/firmware /vendor/etc/
 
 if [ -e "/usr/lib/aarch64-linux-gnu" ] ; then
 echo -e "\033[47;36m ------- move rknpu2 --------- \033[0m"
